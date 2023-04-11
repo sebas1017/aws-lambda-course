@@ -28,4 +28,4 @@ package:
     - test_local_lambda_handler.py
     - README.md
     - .env
-    - __pycache/**
+    - __pycache__/**
