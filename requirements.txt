@@ -1,11 +1,10 @@
 fastapi
-python-dotenv
-psycopg2-binary
+#python-dotenv
+#psycopg2-binary
 gunicorn
 asyncio
 aiohttp
 numpy
 pandas
-sqlalchemy
 requests
 uvicorn
