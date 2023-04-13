@@ -57,3 +57,34 @@ Si deseas contribuir a este proyecto, haz lo siguiente:
 ## Licencia
 
 Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+# Instalacion de docker
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+# URL install docker
+# https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04
+# Instalación
+npm install -g serverless
+npm install --save-dev serverless-python-requirements
+# Configuración
+serverless config credentials --provider aws --key <ACCESS_KEY> --secret <SECRET_KEY>
+
+# Crear un nuevo servicio de Serverless
+serverless create --template aws-python3 --path my-service
+cd my-service
+
+# Crear una nueva función Lambda
+serverless create function --function <NOMBRE_DE_LA_FUNCION> --handler handler.<NOMBRE_DE_LA_FUNCION>
+
+# Editar la función Lambda
+# Editar el archivo handler.py en la carpeta de la función Lambda para agregar el código de la función
+
+# Desplegar el servicio
+serverless deploy
+
+# Verificar información del servicio desplegado
+serverless info

@@ -1,8 +1,5 @@
 fastapi
-#python-dotenv
-#psycopg2-binary
 gunicorn
-asyncio
 aiohttp
 numpy
 pandas
