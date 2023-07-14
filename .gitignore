@@ -1,10 +1,14 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+node_modules/
+.serverless/
 *.py[cod]
 *$py.class
 libs
+*.json
 # C extensions
 *.so
+venv/
 
 # Distribution / packaging
 .Python
