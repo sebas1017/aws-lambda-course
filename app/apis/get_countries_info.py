@@ -105,8 +105,8 @@ async def get_countries():
 				df = pd.DataFrame({
 					"Region": regions_data,
 					"Country": countries,
-					"Language SHA1": hash_languages,
-					"Time [ms]": times
+					"Language": hash_languages,
+					"Time": times
 				})
 				#  we build a dataframe and a data.json file with the results of the algorithm
 				value = json.loads(df.to_json())

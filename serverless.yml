@@ -9,16 +9,86 @@ provider:
 plugins:
   - serverless-python-requirements
 
+
 functions:
   getCountriesInfo:
+    tracing: true
     name: ${sls:stage}-countries-info
-    handler: get_countries_info.lambda_handler
+    handler: app/apis/get_countries_info.lambda_handler
     layers:
       - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
           path: /countries_info
           method: GET
+    timeout: 30
+    memorySize: 2048
+    architecture: x86_64
+
+  getSubRegionsInfo:
+    tracing: true
+    name: ${sls:stage}-subregions-info
+    handler: app/apis/get_subregions_info.lambda_handler
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
+    events:
+      - http:
+          path: /subregions_info
+          method: POST
+          request:
+            schemas:
+              application/json: ${file(schemas/subregions_schema.json)}
+    timeout: 30
+    memorySize: 2048
+    architecture: x86_64
+
+  getSubCountriesInfo:
+    tracing: true
+    name: ${sls:stage}-subcountries-info
+    handler: app/apis/get_subcountries_info.lambda_handler
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
+    events:
+      - http:
+          path: /subcountries_info
+          method: POST
+          request:
+            schemas:
+              application/json: ${file(schemas/subcountries_schema.json)}
+    timeout: 30
+    memorySize: 2048
+    architecture: x86_64
+  
+  getSubLanguagesInfo:
+    tracing: true
+    name: ${sls:stage}-sublanguages-info
+    handler: app/apis/get_sublanguages_info.lambda_handler
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
+    events:
+      - http:
+          path: /sublanguages_info
+          method: POST
+          request:
+            schemas:
+              application/json: ${file(schemas/sublanguages_schema.json)}
+    timeout: 30
+    memorySize: 2048
+    architecture: x86_64
+
+  getSubTimesInfo:
+    tracing: true
+    name: ${sls:stage}-subtimes-info
+    handler: app/apis/get_subtimes_info.lambda_handler
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
+    events:
+      - http:
+          path: /subtimes_info
+          method: POST
+          request:
+            schemas:
+              application/json: ${file(schemas/subtimes_schema.json)}
     timeout: 30
     memorySize: 2048
     architecture: x86_64
@@ -35,7 +105,7 @@ custom:
           - python3.8
         compatibleArchitectures:
           - x86_64
-        
+       
 
 package:
   include:

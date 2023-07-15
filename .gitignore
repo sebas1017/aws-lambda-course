@@ -54,7 +54,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-
+test_local_lambda_handler.py
 # Translations
 *.mo
 *.pot
