@@ -12,9 +12,10 @@ def lambda_handler(event, context):
 		logger.info(f"event---> {context}")
 		body = json.loads(event.get("body", "{}"))
 		result = body.get("Region",{})
+		body["processed_info"] = {"Region":result}
 		response = {
 			'statusCode': 200,
-			'body': json.dumps({"Region":result})
+			'body': json.dumps(body)
 		}
 		return response
 	except Exception as e:

@@ -1,0 +1,202 @@
+{
+  "Comment": "State Machine to process countries_info",
+  "StartAt": "get_countries_info_initial",
+  "States": {
+ 
+    "get_countries_info_initial": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": { "Fn::GetAtt": ["getCountriesInfo", "Arn"] },
+        "Payload": {
+          "body.$": "States.JsonToString($)"
+        }
+      },
+      "ResultSelector": {
+        "body.$": "States.StringToJson($.Payload.body)"
+      },
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "Lambda.Unknown"
+          ],
+          "ResultPath": "$.input",
+          "Next": "TrackingErrors"
+        },
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "TrackingErrors"
+        }
+      ],
+      "Retry": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "IntervalSeconds": 3,
+          "MaxAttempts": 3,
+          "BackoffRate": 1.5
+        }
+      ],
+      "Next": "get_subcountries_info"
+    },
+
+
+
+    "get_subcountries_info": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": { 
+        "Payload": {
+          "body.$": "States.JsonToString($.body)"
+        },
+        "FunctionName": { "Fn::GetAtt": ["getSubCountriesInfo", "Arn"] }
+      },
+      "ResultSelector": {
+        "body.$": "States.StringToJson($.Payload.body)"
+      },
+      "Catch": [
+      {
+        "ErrorEquals": [
+          "Lambda.Unknown"
+        ],
+        "ResultPath": "$.input",
+        "Next": "TrackingErrors"
+      },
+      {
+        "ErrorEquals": [
+          "States.ALL"
+        ],
+        "Next": "TrackingErrors"
+      }
+    ],
+    "Next": "get_sublanguages_info"
+    },
+
+
+
+
+
+    "get_sublanguages_info": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": { 
+        "Payload": {
+          "body.$": "States.JsonToString($.body)"
+        }, 
+        "FunctionName": { "Fn::GetAtt": ["getSubLanguagesInfo", "Arn"] }
+      },
+      "ResultSelector": {
+        "body.$": "States.StringToJson($.Payload.body)"
+      },
+      "Catch": [
+      {
+        "ErrorEquals": [
+          "Lambda.Unknown"
+        ],
+        "ResultPath": "$.input",
+        "Next": "TrackingErrors"
+      },
+      {
+        "ErrorEquals": [
+          "States.ALL"
+        ],
+        "Next": "TrackingErrors"
+      }
+    ],
+
+    
+    "Next": "get_subregions_info"
+    },
+    
+
+
+
+
+    "get_subregions_info": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": { 
+        "Payload": {
+          "body.$": "States.JsonToString($.body)"
+        }, 
+        "FunctionName": { "Fn::GetAtt": ["getSubRegionsInfo", "Arn"] }
+      },
+      "ResultSelector": {
+        "body.$": "States.StringToJson($.Payload.body)"
+      },
+      "Catch": [
+      {
+        "ErrorEquals": [
+          "Lambda.Unknown"
+        ],
+        "ResultPath": "$.input",
+        "Next": "TrackingErrors"
+      },
+      {
+        "ErrorEquals": [
+          "States.ALL"
+        ],
+        "Next": "TrackingErrors"
+      }
+    ],
+    "Next": "get_subtimes_info"
+    },
+
+
+
+
+
+    "get_subtimes_info": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": { 
+        "Payload": {
+          "body.$": "States.JsonToString($.body)"
+        }, 
+        "FunctionName": { "Fn::GetAtt": ["getSubTimesInfo", "Arn"] }
+      },
+      "ResultSelector": {
+        "body.$": "States.StringToJson($.Payload.body)"
+      },
+      "Catch": [
+      {
+        "ErrorEquals": [
+          "Lambda.Unknown"
+        ],
+        "ResultPath": "$.input",
+        "Next": "TrackingErrors"
+      },
+      {
+        "ErrorEquals": [
+          "States.ALL"
+        ],
+        "Next": "TrackingErrors"
+      }
+    ],
+    "End": true
+    },
+
+
+
+
+    "TrackingErrors": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload": {
+          "body.$": "$"
+        },
+        "FunctionName": { "Fn::GetAtt": ["TrackingErrors", "Arn"] }
+      },
+      "ResultSelector": {
+        "body.$": "States.StringToJson($.Payload.body)"
+      },
+      "End": true
+    }
+
+
+
+
+  }
+}

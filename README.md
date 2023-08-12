@@ -70,6 +70,9 @@ sudo apt-get install \
 # Instalación
 npm install -g serverless
 npm install --save-dev serverless-python-requirements
+
+# Instalar plugin para uso de step functions AWS
+npm install --save-dev serverless-step-functions
 # Configuración
 serverless config credentials --provider aws --key <ACCESS_KEY> --secret <SECRET_KEY>
 

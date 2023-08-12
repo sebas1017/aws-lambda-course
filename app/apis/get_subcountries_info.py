@@ -12,15 +12,13 @@ def lambda_handler(event, context):
 		logger.info(f"event---> {context}")
 		body = json.loads(event.get("body", "{}"))
 		result = body.get("Country",{})
+		body["processed_info"] = {"Country":result}
 		response = {
 			'statusCode': 200,
-			'body': json.dumps({"Country":result})
+			'body': json.dumps(body)
 		}
 		return response
 	except Exception as e:
 		logger.error(traceback.format_exc())
 		logger.error(f"error in subcountries_info -> {e}")
-		return {
-			'statusCode': 500,
-			'body': json.dumps({"error": "Internal server error"})
-		}
+		raise Exception(event)

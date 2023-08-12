@@ -1,0 +1,11 @@
+countries-state-machine: 
+  name: countries-state-machine
+  type: EXPRESS
+  definition: ${file(step_functions/step_countries.asl.json)}
+  role: 
+        Fn::GetAtt: [StepFunctionApiMachineRole, Arn]
+  loggingConfig:
+    includeExecutionData: True
+    destinations:
+      - Fn::GetAtt: [StepFunctionLogs, Arn]
+    level: ALL

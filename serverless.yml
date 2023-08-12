@@ -8,6 +8,9 @@ provider:
 
 plugins:
   - serverless-python-requirements
+  - serverless-step-functions
+
+
 
 
 functions:
@@ -92,6 +95,31 @@ functions:
     timeout: 30
     memorySize: 2048
     architecture: x86_64
+  
+  TrackingErrors:
+    tracing: true
+    name: ${sls:stage}-tracking_errors
+    handler: app/apis/tracking_errors.lambda_handler
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
+    events:
+      - http:
+          path: /tracking_errors
+          method: POST
+    timeout: 30
+    memorySize: 2048
+    architecture: x86_64
+
+
+resources:
+  Resources:
+    StepFunctionApiMachineRole: ${file(resources/stepFunctionRole.yml):StepFunctionApiMachineRole}
+    StepFunctionLogs: ${file(resources/logs.yml):StepFunctionLogs}
+
+stepFunctions:
+  stateMachines:
+    countries-state-machine: ${file(step_functions/serverless.yml):countries-state-machine}
+
 
 custom:
   bucket: ${env:BUCKET, 'countries-info-serverless'}
